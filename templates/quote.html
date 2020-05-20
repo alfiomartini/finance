@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/quote" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" 
+            placeholder="Symbol" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Quote</button>
+    </form>
+    <script>
+        document.querySelector('form').onsubmit = function(){
+            if (!document.querySelector('input[name="symbol"]').value){
+                alert('You must provide a symbol name.');
+                return false; // cancels submit
+            }
+        }
+    </script>
+{% endblock %}

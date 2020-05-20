@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="post">
+        <div class="form-group">
+            <select name='known' class="form-control bg-secondary text-white" id="known">
+                <option disabled selected value="">Symbols (Sell)</option>
+                {% for s in symbols %}
+                    <option value="{{s}}"> {{s}} </option>
+                {% endfor %}
+            </select> 
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" 
+            placeholder="Symbol" type="text" id="symbol">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="shares" placeholder="Shares" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Sell</button>
+    </form>
+    <script>
+        document.querySelector('form').onsubmit = function(){
+            if (!document.querySelector('input[name="symbol"]').value){
+                alert('You must provide a symbol.');
+                return false; // cancels submit
+            }
+            var shares = document.querySelector('input[name="shares"]').value
+            if (!shares) {
+                alert('You must provide the number of shares.');
+                return false; // cancels submit
+            }
+            number = parseInt(shares)
+            if (number < 0) {
+                alert('You must provide a positive number.');
+                return false; // cancels submit
+            }
+        }
+        
+        // the wrapper is needed to prevent any jQuery
+        // code from running before the document is 
+        // finished loading
+        $(document).ready(function(){ 
+            $("select").change(function(){
+                var selected = document.getElementById('known').value;
+                document.getElementById('symbol').value = selected;
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Bought
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th> Symbol</th> <th> Name</th> <th>Shares</th> <th>Price</th> <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td> <span class="">{{ row['symbol']}}</span></td> 
+            <td> <span class="">{{ row['name']}}</span></td> 
+            <td> <span class="">{{ row['shares']}}</span></td>
+            <td> <span class="">{{ row['price']}} </span></td>
+            <td> <span class="">{{ row['total'] | usd }}</span></td>
+        </tr>
+        {% endfor %}
+        <tr><td>CASH</td> <td></td> <td></td> <td></td> <td>{{cash | usd}}</td></tr>
+        <tr><td>BALANCE</td> <td></td> <td></td> <td></td> <td>{{sum | usd }}</td></tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/login" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" 
+            name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" 
+            type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+   
+    <script>
+        document.querySelector('form').onsubmit = function(){
+            if (!document.querySelector('input[name="username"]').value){
+                alert('You must provide a username.');
+                return false; // cancels form submission
+            }
+            if (!document.querySelector('input[name="password"]').value){
+                alert('You must provide a password.');
+                return false; // cancels form submission
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Check Name
+{% endblock %}
+
+{% block main %}
+    <form>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" 
+            name="username" required value=""
+            placeholder="Name" type="text" id="check" minlength="1">
+        </div>
+        <div class="form-group">
+        <button class="btn btn-primary" type="button" 
+        onclick='checkUser();return false'>Check</button>
+        </div>
+    </form>
+    <script>
+        function checkUser(){
+            var input = document.querySelector('input');
+            var value = input.value 
+            $.get('/check?username='+value, function(data){
+            var avail = JSON.parse(data);
+            if (avail)
+                alert('Name is available.');
+            else 
+                alert('Name is used.');
+            });
+        };
+    </script>
+{% endblock %}

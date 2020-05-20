@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+    <!-- ?alt=https://i.imgur.com/CsCgN7Ll.png -->
+    <img alt="{{ top }}" class="border" src="http://memegen.link/buzz/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg" title="{{ top }}">
+{% endblock %}

@@ -1,0 +1,15 @@
+ {% extends 'layout.html' %}
+
+ {% block main %}
+    <div class="symbol">
+        {% if data %}
+           {% set symb = data['symbol'] %}
+           {% set name = data['name'] %}
+           {% set price = data['price'] | usd  %}
+           {% set message = 'A share of ' + name + ' (' + symb +')' + ' costs ' + price %}
+        {% else %}
+            {% set message = 'Symbol not recognized.' %}
+        {%  endif %}
+        <h3> {{message}} </h3>
+    </div>
+ {% endblock %}
