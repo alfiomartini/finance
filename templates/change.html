@@ -10,7 +10,7 @@
         id="btn-chg">Change Password</button>
     </div>
     <form action="/change" method="post" id="change"
-       onsubmit="event.preventDefault();checkPass();">
+       onsubmit="" hidden>
         <div class="form-group">
             <input class="form-control" name="oldpassword" 
             placeholder="(Old) password" type="password" required>
@@ -25,34 +25,9 @@
         </div>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
-    <script>
-        $('#change').hide();
-        var HIDDEN = true;
-        var button = document.getElementById('btn-chg');
-        button.onclick = function(){
-            if (HIDDEN) {
-                $('#change').show();
-                HIDDEN = false;
-            }
-            else {
-                $('#change').hide();
-                HIDDEN = true;
-            }
-        };
-    </script>
-    <script>
-        function checkPass(){
-            var form = document.querySelector('form');
-            var newpass = document.getElementById('new');
-            var confpass = document.getElementById('conf');
-            if (newpass.value !== confpass.value){
-                alert("New password and confirmation don't match");
-                newpass.value= '';
-                confpass.value = '';
-                newpass.focus();
-            }
-            else form.submit();
-        };
-    </script>
+{% endblock %}
+{% block scripts %}
+<script src="static/hide_class.js"></script>
+<script src="static/change.js"></script>
 {% endblock %}
 

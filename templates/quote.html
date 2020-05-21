@@ -8,16 +8,11 @@
     <form action="/quote" method="post">
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="symbol" 
-            placeholder="Symbol" type="text">
+            placeholder="Symbol" type="text" required>
         </div>
         <button class="btn btn-primary" type="submit">Quote</button>
     </form>
-    <script>
-        document.querySelector('form').onsubmit = function(){
-            if (!document.querySelector('input[name="symbol"]').value){
-                alert('You must provide a symbol name.');
-                return false; // cancels submit
-            }
-        }
-    </script>
+{% endblock %}
+{% block scripts %}
+<script src="static/quote.js"></script>
 {% endblock %}
