@@ -12,10 +12,12 @@ function listeners(){
         let shares = document.querySelector('input[name="shares"]').value
         number = parseInt(shares)
         if (isNaN(number)){
-            alert('You must provide a number')
+            let modal = new Modal('');
+            modal.show('You must provide a number');
         }
-        else if (number < 0) {
-            alert('You must provide a positive number.');
+        else if (number <= 0) {
+            let modal = new Modal('');
+            modal.show('You must provide a positive number.');
         }
         else form.submit();
     }

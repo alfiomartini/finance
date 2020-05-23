@@ -26,7 +26,8 @@ function listeners(){
         var newpass = document.getElementById('new');
         var confpass = document.getElementById('conf');
         if (newpass.value !== confpass.value){
-            alert("New password and confirmation don't match");
+            let modal = new Modal('');
+            modal.show("New password and confirmation don't match");
             newpass.value= '';
             confpass.value = '';
             newpass.focus();

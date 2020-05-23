@@ -1,3 +1,4 @@
+<!-- I am not using this template anymore -->
 {% extends "layout.html" %}
 
 {% block title %}
@@ -16,17 +17,6 @@
         onclick='checkUser();return false'>Check</button>
         </div>
     </form>
-    <script>
-        function checkUser(){
-            var input = document.querySelector('input');
-            var value = input.value 
-            $.get('/check?username='+value, function(data){
-            var avail = JSON.parse(data);
-            if (avail)
-                alert('Name is available.');
-            else 
-                alert('Name is used.');
-            });
-        };
-    </script>
+    <script src="/static/modal_class.js"></script>
+    <script src="/static/check.js"></script>
 {% endblock %}

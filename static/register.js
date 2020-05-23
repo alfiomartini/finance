@@ -13,7 +13,8 @@ function listeners(){
         $.get('/check?username='+value, function(data){
             var avail = JSON.parse(data);
             if (!avail) {
-                alert('Name already in use.');
+                let modal = new Modal('');
+                modal.show('Name already in use.');
                 input.value= '';
                 input.focus();
             }   
@@ -25,7 +26,8 @@ function listeners(){
         let pass = document.getElementById('pass');
         let conf = document.getElementById('conf');
         if (pass.value !== conf.value){
-            alert("New password and confirmation don't match");
+            let modal = new Modal('');
+            modal.show("New password and confirmation don't match");
             pass.value= '';
             conf.value = '';
             pass.focus();

@@ -9,11 +9,12 @@ function listeners(){
         event.preventDefault();
         let input = document.querySelector('input');
         let val = input.value;
-        let patt = /[a-z]+/i;
+        let patt = /^[a-z]+$/i;
         if (patt.test(val))
             form.submit();
         else {
-            alert('Only alphabetical characters allowed.');
+            let modal = new Modal('');
+            modal.show('Only alphabetical characters allowed.');
         }
     }
 }
