@@ -62,7 +62,7 @@ db = SQL("sqlite:///finance.db")
 # set API_KEY=pk_01aaacabc1964f3690742bddf2c3695d
 # list keys: set
 # pk_01aaacabc1964f3690742bddf2c3695d
-if not os.environ.get("API_KEY"):
+if not os.environ.get("FINANCE_KEY"):
     raise RuntimeError("API_KEY not set")
 
 
