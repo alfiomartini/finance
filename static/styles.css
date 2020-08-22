@@ -56,7 +56,7 @@ td{
     }
 }
 
-@media (max-width:300px){
+@media (max-width:400px){
     table{
         font-size: 12px;
     }
