@@ -49,7 +49,7 @@ td{
     }
 }
 
-@media (max-width:400px){
+@media (max-width:500px){
     table{
         font-size: 12px;
     }
@@ -75,6 +75,12 @@ nav .navbar-brand
     nav li > a{
       font-size: 18px;
     }
+}
+
+/* Forms */
+
+.form-group select{
+    background-color: #000066 !important;
 }
 
 /* Search Response */
@@ -141,6 +147,26 @@ nav .navbar-brand
     background-color: whitesmoke;
     border-radius: 5px;
 }
+
+/* Buttons */
+
+.edit-btn{
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    background-color: whitesmoke;
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.edit-btn:hover{
+    background-color: blue;
+    color: whitesmoke;
+    text-decoration: none;
+  } 
 
 
 

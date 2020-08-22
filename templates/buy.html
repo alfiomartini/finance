@@ -8,24 +8,24 @@
     <form action="/buy" method="post">
         <div class="form-group">
             <select name='known' class="form-control bg-secondary text-white" id="known">
-                <option disabled selected value="">Symbols (Buy)</option>
-                {% for s in symbols %}
-                    <option value="{{s}}"> {{s}} </option>
+                <option disabled selected value="">Companies (Buy) </option>
+                {% for company in companies %}
+                    <option value="{{company['symbol']}}"> {{company['symbol']}} - {{company['name']}} </option>
                 {% endfor %}
             </select> 
         </div>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="symbol" 
-            placeholder="Symbol" type="text" id="symbol" required>
+            placeholder="Symbol" type="text" id="symbol" data-symbol ="{{symbol}}" required>
         </div>
         <div class="form-group">
             <input class="form-control" name="shares" placeholder="Shares" 
-            type="text" required>
+            type="number" min = "1" required>
         </div>
         <button class="btn btn-primary" type="submit">Buy</button>
     </form>
 {% endblock %}
 {% block scripts %}
 <script src="/static/modal_class.js"></script>
-<script src="static/buy.js"></script>
+<script src="/static/buy.js"></script>
 {% endblock %}

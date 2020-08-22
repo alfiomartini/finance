@@ -102,14 +102,13 @@ def index():
 
 
 @app.route("/buy", methods=["GET", "POST"])
+@app.route("/buy/<string:symbol>", methods=['GET'])
 @login_required
-def buy():
+def buy(symbol=None):
     """Buy shares of stock"""
     # queryes data base for the symbols of the companies's shares for each user
-    colSymb = db.execute('select symbol from transactions where id = ? group by symbol',
-                              (session['user_id'],))
+    companies = db.execute('select * from companies order by symbol')
     # refine into a known list of symbols to be used as a context menu in the template
-    listSymb = list(map(lambda x: x['symbol'], colSymb))
     if request.method == 'POST':
         symbol = request.form.get('symbol').upper()
         data = lookup(symbol)
@@ -134,12 +133,15 @@ def buy():
         flash('Bought!')
         return redirect('/')
     else:
-        return render_template('buy.html', symbols = listSymb)
+        if not symbol:
+            symbol = 'unknown'
+        return render_template('buy.html', companies = companies, symbol=symbol)
 
 
 @app.route("/sell", methods=["GET", "POST"])
+@app.route("/sell/<string:symbol>", methods=['GET'])
 @login_required
-def sell():
+def sell(symbol = None):
     # query database and build a list of known symbols for a context menu
     colSymb = db.execute('select symbol from transactions where id = ? group by symbol',
                               (session['user_id'],))
@@ -173,7 +175,9 @@ def sell():
         flash('Sold!')
         return redirect('/')
     else:
-        return render_template('sell.html', symbols=listSymb)
+        if not symbol:
+            symbol = 'unknown'
+        return render_template('sell.html', symbols=listSymb, symbol=symbol)
 
 @app.route("/history")
 @login_required
@@ -196,13 +200,11 @@ def history():
 
     return render_template('history.html', rows = history)
 
-
+@app.route("/quote")
 @app.route("/quote/<int:quote_id>", methods=["GET"])
 @login_required
-def quote(quote_id):
-    # 0 indicates that the page was called from the navbar
-    # there is no company with id 0 in the database.
-    if quote_id == 0:
+def quote(quote_id = None):
+    if not quote_id:
         return render_template('quote.html')
     else:
         row = db.execute('select * from companies where id = ?',(quote_id,))

@@ -10,7 +10,13 @@
         <table class="table table-responsive">
             <thead>
                 <tr>
-                    <th class="table-col-hide"> Symbol</th> <th> Name</th> <th>Shares</th> <th>Price</th> <th>Total</th>
+                    <th class="table-col-hide"> Symbol</th> 
+                    <th> Name</th> 
+                    <th>Shares</th> 
+                    <th>Price</th> 
+                    <th class="table-col-hide">Total</th> 
+                    <th>Buy</th> 
+                    <th>Sell</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,12 +25,26 @@
                     <td class="table-col-hide"> <span class="">{{ row['symbol']}}</span></td> 
                     <td> <span class="">{{ row['name']}}</span></td> 
                     <td> <span class="">{{ row['shares']}}</span></td>
-                    <td> <span class="">{{ row['price']}} </span></td>
-                    <td> <span class="">{{ row['total'] | usd }}</span></td>
+                    <td> <span class="">{{ row['price'] | usd}} </span></td>
+                    <td class="table-col-hide"> <span class=""">{{ row['total'] | usd }}</span></td>
+                    <td> <a href="/buy/{{row['symbol']}}" class="edit-btn">buy</a></td>
+                    <td> <a href="/sell/{{row['symbol']}}" class="edit-btn">sell</a></td>
                 </tr>
                 {% endfor %}
-                <tr><td class="table-col-hide"></td> <td>CASH</td> <td></td> <td></td> <td>{{cash | usd}}</td></tr>
-                <tr><td class="table-col-hide"> </td> <td>BALANCE</td> <td></td> <td></td> <td>{{sum | usd }}</td></tr>
+                <tr><td class="table-col-hide"></td> 
+                    <td>CASH</td> 
+                    <td></td>
+                    <td></td>
+                    <td class="table-col-hide"></td>
+                    <td></td>
+                    <td>{{cash | usd}}</td></tr>
+                <tr><td class="table-col-hide"> </td> 
+                    <td>BALANCE</td> 
+                    <td></td> 
+                    <td></td>
+                    <td class="table-col-hide"></td>
+                    <td></td>
+                    <td>{{sum | usd }}</td></tr>
             </tbody>
         </table>
     </div>
