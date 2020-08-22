@@ -15,8 +15,7 @@
                     <th>Shares</th> 
                     <th>Price</th> 
                     <th class="table-col-hide">Total</th> 
-                    <th>Buy</th> 
-                    <th>Sell</th>
+                    <th>Buy/Sell</th> 
                 </tr>
             </thead>
             <tbody>
@@ -27,8 +26,8 @@
                     <td> <span class="">{{ row['shares']}}</span></td>
                     <td> <span class="">{{ row['price'] | usd}} </span></td>
                     <td class="table-col-hide"> <span class=""">{{ row['total'] | usd }}</span></td>
-                    <td> <a href="/buy/{{row['symbol']}}" class="edit-btn">buy</a></td>
-                    <td> <a href="/sell/{{row['symbol']}}" class="edit-btn">sell</a></td>
+                    <td> <a  href="/buy/{{row['symbol']}}" class="edit-btn mr-1">buy</a>
+                         <a href="/sell/{{row['symbol']}}" class="edit-btn">sell</a></td>
                 </tr>
                 {% endfor %}
                 <tr><td class="table-col-hide"></td> 
@@ -36,14 +35,12 @@
                     <td></td>
                     <td></td>
                     <td class="table-col-hide"></td>
-                    <td></td>
                     <td>{{cash | usd}}</td></tr>
                 <tr><td class="table-col-hide"> </td> 
                     <td>BALANCE</td> 
                     <td></td> 
                     <td></td>
                     <td class="table-col-hide"></td>
-                    <td></td>
                     <td>{{sum | usd }}</td></tr>
             </tbody>
         </table>
