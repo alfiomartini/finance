@@ -137,28 +137,43 @@ def buy():
         return render_template('buy.html', symbols = listSymb)
 
 
-# I have implemented this 'chekform', but I am not using. Kind of
-# unnecessary functionality. Register already includes it, somehow.
-
-@app.route('/checkform')
-def checkform():
-    return render_template('check.html')
-
-# this route is requested during register to validate a new
-# user. 
-@app.route("/check", methods=["GET"])
-def check():
-    """Return true if username available, else false, in JSON format"""
-    name = request.args.get('username')
-    if len(name) < 1:
-        return jsonify(False)
-    # query database to see if there are any row with this username
-    row = db.execute("select * from users where username = ?", (name,))
-    if len(row) == 0:
-        avail = True
+@app.route("/sell", methods=["GET", "POST"])
+@login_required
+def sell():
+    # query database and build a list of known symbols for a context menu
+    colSymb = db.execute('select symbol from transactions where id = ? group by symbol',
+                              (session['user_id'],))
+    listSymb = list(map(lambda x: x['symbol'], colSymb))
+    if request.method == 'POST':
+        symbol = request.form.get('symbol').upper()
+        data = lookup(symbol)
+        # if data == None:
+            #return apology('Unknown symbol.', 404)
+        shares = int(request.form.get('shares'))
+        if shares < 0:
+            return apology('You must provide a positive number.', 400)
+        if symbol not in listSymb:
+            return apology('You do not own shares of this company.')
+        # get the latest price
+        price = data['price']
+        rowSymb = db.execute('''select symbol, sum(number) as shares 
+                              from transactions where id = ? group by symbol
+                              having symbol = ?''', session['user_id'],symbol)
+        sharesSymb = rowSymb[0]['shares']
+        if shares > sharesSymb:
+            return apology("You can't buy that many shares.", 400)
+        user = db.execute('select * from users where id = ?', session['user_id'])
+        cash = user[0]['cash']
+        shares_value = shares * price
+        new_cash = cash  + shares_value
+        db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
+        db.execute('''insert into transactions(id, symbol, number, type, price) 
+                       values(?,?,?, 'sold', ?)''',
+                       session['user_id'], symbol, -shares, price)
+        flash('Sold!')
+        return redirect('/')
     else:
-        avail = False
-    return jsonify(avail)
+        return render_template('sell.html', symbols=listSymb)
 
 @app.route("/history")
 @login_required
@@ -182,6 +197,53 @@ def history():
     return render_template('history.html', rows = history)
 
 
+@app.route("/quote/<int:quote_id>", methods=["GET"])
+@login_required
+def quote(quote_id):
+    # 0 indicates that the page was called from the navbar
+    # there is no company with id 0 in the database.
+    if quote_id == 0:
+        return render_template('quote.html')
+    else:
+        row = db.execute('select * from companies where id = ?',(quote_id,))
+        print(row)
+        if row:
+            return render_template('quote_result.html', company=row[0])
+        else:
+            print('No rows')
+            return ""
+
+
+# Utilities routes
+
+# this route is requested during register to validate a new user. 
+@app.route("/check", methods=["GET"])
+def check():
+    """Return true if username available, else false, in JSON format"""
+    name = request.args.get('username')
+    if len(name) < 1:
+        return jsonify(False)
+    # query database to see if there are any row with this username
+    row = db.execute("select * from users where username = ?", (name,))
+    if len(row) == 0:
+        avail = True
+    else:
+        avail = False
+    return jsonify(avail)
+
+@app.route("/search/<string:query>")
+def search(query):
+    # take care of upper and lower case
+    query = query.lower() + '%'
+    companies = db.execute("""select * from companies
+                             where lower(name) like  ?
+                             or lower(symbol) like ?
+                             order by symbol""", (query,query))
+    html = render_template("search.html", companies=companies)
+    return html
+
+
+# Authentication Routes
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -230,23 +292,6 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
-
-
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    if request.method == 'POST':
-        symbol = request.form.get('symbol').upper()
-        info = lookup(symbol)
-        
-        if not info:
-            # flash('Unknown symbol.')
-            return render_template('quoted.html', data = {})
-        else:
-            return render_template('quoted.html', data=info)
-    else:
-        return render_template("quote.html")
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -303,45 +348,6 @@ def change():
         return redirect('/logout')
     else:
         return render_template('change.html')
-
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    # query database and build a list of known symbols for a context menu
-    colSymb = db.execute('select symbol from transactions where id = ? group by symbol',
-                              (session['user_id'],))
-    listSymb = list(map(lambda x: x['symbol'], colSymb))
-    if request.method == 'POST':
-        symbol = request.form.get('symbol').upper()
-        data = lookup(symbol)
-        # if data == None:
-            #return apology('Unknown symbol.', 404)
-        shares = int(request.form.get('shares'))
-        if shares < 0:
-            return apology('You must provide a positive number.', 400)
-        if symbol not in listSymb:
-            return apology('You do not own shares of this company.')
-        # get the latest price
-        price = data['price']
-        rowSymb = db.execute('''select symbol, sum(number) as shares 
-                              from transactions where id = ? group by symbol
-                              having symbol = ?''', session['user_id'],symbol)
-        sharesSymb = rowSymb[0]['shares']
-        if shares > sharesSymb:
-            return apology("You can't buy that many shares.", 400)
-        user = db.execute('select * from users where id = ?', session['user_id'])
-        cash = user[0]['cash']
-        shares_value = shares * price
-        new_cash = cash  + shares_value
-        db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
-        db.execute('''insert into transactions(id, symbol, number, type, price) 
-                       values(?,?,?, 'sold', ?)''',
-                       session['user_id'], symbol, -shares, price)
-        flash('Sold!')
-        return redirect('/')
-    else:
-        return render_template('sell.html', symbols=listSymb)
 
 
 def errorhandler(e):

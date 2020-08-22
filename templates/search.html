@@ -1,0 +1,16 @@
+<div class="alert alert-primary border text-center mt-4" role="alert">
+  Select one of the items in the list below:
+</div>
+<div class="search-container">
+  <ul class="search-list">
+      {% for item in companies %}
+      <li data-route='/quote/{{item['id']}}'>
+          <a href="#">  <!-- href = '/city/{{item['id']}}' -->
+              <span class="">{{item['symbol']}} - </span>
+              <span class="">{{item['name']}} - </span>
+              <span class=""> {{item['industry']}}</span>
+          </a>
+      </li>
+      {% endfor %}
+  </ul>
+</div>

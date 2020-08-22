@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/quote" method="post">
+    <form class = 'form-inline' action="" method="post">
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="symbol" 
-            placeholder="Symbol" type="text" required>
+            placeholder="Symbol or Company" type="text" id = 'quote-search'>
         </div>
-        <button class="btn btn-primary" type="submit">Quote</button>
+        <!-- <button class="btn btn-primary" type="submit">Quote</button> -->
     </form>
+
+    <div class="" id="search"></div>
+    <div class="" id="result"></div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/modal_class.js"></script>
 <script src="/static/quote.js"></script>
 {% endblock %}

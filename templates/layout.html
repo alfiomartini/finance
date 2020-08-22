@@ -45,7 +45,7 @@
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/quote"
+                        <li class="nav-item"><a class="nav-link" href="/quote/0"
                          data-toggle='tooltip' title="Name symbol" data-placement='bottom'>
                          Quote</a></li>
                         <li class="nav-item"><a class="nav-link" href="/buy"
@@ -74,23 +74,24 @@
             </div>
         </nav>
 
-        {% if get_flashed_messages() %}
+        <div class="main">
+            {% if get_flashed_messages() %}
             <header class="flashed">
                 <div class="alert alert-primary border text-center" role="alert">
                     {{ get_flashed_messages() | join(" ") }}
                 </div>
             </header>
-        {% endif %}
-
+             {% endif %}
         
-        <div id="modal-div"></div>
-        {% block main %}{% endblock %}
-        {% block scripts %}{% endblock %}
         
-        <footer class="small text-center text-muted">
-            Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
-        </footer>
-
+            <div id="modal-div"></div>
+            {% block main %}{% endblock %}
+            {% block scripts %}{% endblock %}
+            
+            <footer class="small text-center text-muted">
+                Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
+            </footer>
+        </div>
     </body>
 
 </html>

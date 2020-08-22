@@ -5,23 +5,16 @@
 
 body{
     background-color : black;
-    padding: 20px 30px;
+    
 }
 
+.main {
+    padding: 20px 20px;
+}
 
 h3{
     color: lightgreen;
 }
-
-.form-control
-{
-    /* center form controls */
-    display: inline-block;
-
-    /* override Bootstrap's 100% width for form controls */
-    width: auto;
-}
-
 
 
 img
@@ -65,7 +58,7 @@ td{
 
 .navbar{
     position: sticky;
-    top: 16px;
+    top: 10px;
 }
 
 .flashed{
@@ -82,6 +75,71 @@ nav .navbar-brand
     nav li > a{
       font-size: 18px;
     }
+}
+
+/* Search Response */
+
+.search-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.search-list{
+    margin-top: 2.5rem;
+    list-style-type: none;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+#search ul li a {
+    display: inline-block;
+    text-decoration: none;
+    color: lightsteelblue;
+    padding: 5px 10px;
+    font-variant: small-caps;
+}
+
+#search ul li a:hover{
+    background-color: whitesmoke;
+    color:black;
+    border-radius: 5px;
+}
+
+/* Quote */
+
+.quote-container{
+    margin-top: 30px;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.quote-company{
+    list-style-type: none;
+    color: lightsteelblue;
+    font-variant: small-caps;
+}
+
+.quote-company li{
+    padding: 5px 10px
+}
+
+.quote-company li a {
+    display: inline-block;
+    padding: 3px 10px;
+    text-decoration: none;
+    color: lightsteelblue;
+}
+
+.quote-company li a:hover{
+    color: black;
+    background-color: whitesmoke;
+    border-radius: 5px;
 }
 
 
