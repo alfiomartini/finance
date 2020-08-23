@@ -1,15 +1,11 @@
  {% extends 'layout.html' %}
 
  {% block main %}
-    <div class="symbol">
-        {% if data %}
-           {% set symb = data['symbol'] %}
-           {% set name = data['name'] %}
-           {% set price = data['price'] | usd  %}
-           {% set message = 'A share of ' + name + ' (' + symb +')' + ' costs ' + price %}
-        {% else %}
-            {% set message = 'Symbol not recognized.' %}
-        {%  endif %}
-        <h3> {{message}} </h3>
-    </div>
+ <div class="quote-container">
+    <ul class="quote-company">
+      <li>Name: {{data['name']}}</li>
+      <li>Symbol: {{data['symbol']}}</li>
+      <li>Price: {{data['price'] | usd}}</li>
+    </ul>
+  </div>
  {% endblock %}

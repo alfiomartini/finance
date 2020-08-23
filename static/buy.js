@@ -4,12 +4,21 @@ function listeners(){
     let form = document.querySelector('form');
     let select = document.querySelector('select');
 
-    // form.addEventListener('submit', checkForm);
+    form.addEventListener('submit', message);
     select.addEventListener('change',selectSymb);
     let known = document.querySelector('input[name="symbol"]').dataset.symbol;
-    console.log(known);
     if (known !== 'unknown'){
         document.getElementById('symbol').value = known;
+    }
+
+    function message(){
+        let spinner = document.getElementById('spinner');
+        form.style.display = 'none';
+        spinner.innerHTML = `<div class=btn-spinner>
+                               <button class="btn btn-primary">
+                                 <span class="spinner-border spinner-border-sm"></span>
+                                Wait a moment...
+                              </button> </div>`
     }
 
     // function checkForm(event){
