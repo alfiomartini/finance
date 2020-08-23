@@ -6,6 +6,7 @@
       <li>Name: {{data['name']}}</li>
       <li>Symbol: {{data['symbol']}}</li>
       <li>Price: {{data['price'] | usd}}</li>
+      <a  href="/buy/{{data['symbol']}}" class="edit-btn ml-2"> buy </a>
     </ul>
   </div>
  {% endblock %}

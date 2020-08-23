@@ -1,8 +1,9 @@
 <div class="quote-container">
   <ul class="quote-company">
-    <li>Name: {{company['name']}}</li>
+    <li>Name: {{company['name']}} 
     <li>Symbol: {{company['symbol']}}</li>
     <li>Industry: {{company['industry']}}</li>
     <li>Summary: <a href="{{company['nasdaq_url']}}" target="_blank">&#128279 Nasdaq Page</a></li>
+    <a  href="/buy/{{company['symbol']}}" class="edit-btn ml-2"> buy </a>
   </ul>
 </div>
