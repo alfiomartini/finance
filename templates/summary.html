@@ -32,16 +32,16 @@
                 {% endfor %}
                 <tr><td class="table-col-hide"></td> 
                     <td>CASH</td> 
+                    <td>{{cash | usd}}</td>
                     <td></td>
-                    <td></td>
-                    <td class="table-col-hide"></td>
-                    <td>{{cash | usd}}</td></tr>
-                <tr><td class="table-col-hide"> </td> 
-                    <td>BALANCE</td> 
+                    <td class="table-col-hide">{{sum|usd}}</td>
+                    <td><a href="/add" class="edit-btn">add</a></td></tr>
+                <!-- <tr><td class="table-col-hide"> </td> 
+                    <td></td> 
                     <td></td> 
                     <td></td>
-                    <td class="table-col-hide"></td>
-                    <td>{{sum | usd }}</td></tr>
+                    <td class="table-col-hide">{{sum | usd }}</td>
+                    <td></td></tr> -->
             </tbody>
         </table>
     </div>

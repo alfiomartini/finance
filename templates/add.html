@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form class = 'form-inline' action="/add" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="cash" 
+            placeholder="Amount" type="number" step ='50' min = '50' required >
+        </div>
+        <button class="btn btn-primary ml-2" type="submit">Submit</button>
+    </form>
+
+    <div class="" id="search"></div>
+    <div class="" id="result"></div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/quote.js"></script>
+{% endblock %}

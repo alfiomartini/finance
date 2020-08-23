@@ -97,7 +97,6 @@ def index():
         # update list of data
         summary.append(dict)
     cash = user[0]['cash']
-    sum += cash
     return render_template('summary.html', rows = summary, cash=cash, sum=sum)
 
 
@@ -119,7 +118,7 @@ def buy(symbol=None):
         shares = int(request.form.get('shares'))
         if shares < 0:
             return render_template('failure', message='You must provide a positive number.')
-        row = db.execute('select * from users where id = ?', session['user_id'])
+        row = db.execute('select * from users where id = ?', (session['user_id'],))
         cash = row[0]['cash']
         shares_value = shares * price
         if (cash - shares_value) < 0 :
@@ -170,7 +169,7 @@ def sell(symbol = None):
         sharesSymb = rowSymb[0]['shares']
         if shares > sharesSymb:
             return render_template('failure.html', message="You can't buy that many shares.")
-        user = db.execute('select * from users where id = ?', session['user_id'])
+        user = db.execute('select * from users where id = ?', (session['user_id'],))
         cash = user[0]['cash']
         shares_value = shares * price
         new_cash = cash  + shares_value
@@ -230,6 +229,17 @@ def quote(quote_id = None):
                 return render_template('failure.html', 
                        message='Sorry, this company does not exist.')
       
+@app.route('/add', methods=['GET','POST'])
+def add():
+    if request.method == 'POST':
+        amount = int(request.form.get('cash'))
+        row = db.execute('select * from users where id = ?', (session['user_id'],))
+        current = row[0]['cash']
+        new_cash = current + amount
+        db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
+        return redirect('/')
+    else:
+        return render_template('add.html')
 
 # Utilities routes
 
