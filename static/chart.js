@@ -55,29 +55,33 @@ function listeners(){
       .then(resp => resp.json())
       .then(chart => {
           // console.log(chart);
-          document.querySelector('#search').innerHTML = '';
-          let ctx = document.getElementById('myChart');
-          let myChart = new Chart(ctx,{
-            type:'line',
-            data:{
-              labels:chart['labels'],
-              datasets:[
-                {
-                  data:chart['data'],
-                  label:"Dataset",
-                  fill:false,
-                  borderColor:"blue"
-                } 
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio:false,
-            }
-          });
+          drawChart(chart);
       })
       .catch(error => {
         console.log(error);
       })
+    }
+
+    function drawChart(chart){
+      document.querySelector('#search').innerHTML = '';
+      let ctx = document.getElementById('myChart');
+      let myChart = new Chart(ctx,{
+        type:'line',
+        data:{
+          labels:chart['labels'],
+          datasets:[
+            {
+              data:chart['data'],
+              label:"Dataset",
+              fill:false,
+              borderColor:"blue"
+            } 
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio:false,
+        }
+      });
     }
 }

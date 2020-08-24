@@ -230,6 +230,7 @@ def quote(quote_id = None):
                        message='Sorry, this company does not exist.')
       
 @app.route('/add', methods=['GET','POST'])
+@login_required
 def add():
     if request.method == 'POST':
         amount = int(request.form.get('cash'))
@@ -259,6 +260,7 @@ def check():
     return jsonify(avail)
 
 @app.route("/search/<string:query>")
+@login_required
 def search(query):
     # take care of upper and lower case
     query = query.lower() + '%'
@@ -272,6 +274,7 @@ def search(query):
 
 @app.route('/chart', methods = ['GET'])
 @app.route('/chart/<string:symbol>/<string:range>', methods=['GET'])
+@login_required
 def chart(symbol=None, range=None):
     if symbol and range:
        json_resp = chart_data(symbol, range)
@@ -290,7 +293,6 @@ def chart(symbol=None, range=None):
                 data.append(item['close'])
             chart['labels'] = labels
             chart['data'] = data
-            print(chart)
             return jsonify(chart)
        else:
            return jsonify({})
