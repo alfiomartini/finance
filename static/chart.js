@@ -21,7 +21,8 @@ function listeners(){
             async: true, // notice this line
             })
             .done(function(search_list, status, xhr){
-                document.querySelector('#result').innerHTML = '';
+                // document.querySelector('#result').innerHTML = ''
+                removeChart();
                 document.querySelector('#search').innerHTML = search_list;
                 let search_links = document.querySelectorAll('.search-container li');
                 search_links.forEach(link => {
@@ -60,6 +61,14 @@ function listeners(){
       .catch(error => {
         console.log(error);
       })
+    }
+
+    function removeChart(){
+      let chart_container = document.querySelector('.chart-container');
+      chart_container.innerHTML = '';
+      let canvas = document.createElement('canvas');
+      canvas.id = 'myChart';
+      chart_container.append(canvas);
     }
 
     function drawChart(chart){
