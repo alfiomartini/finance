@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form class = 'form-inline' action="" method="">
+      <div class ="form-group">
+        <input autocomplete="off" autofocus class="form-control mr-2" name="symbol" 
+        placeholder="Symbol or Company" type="text" id ='quote-search' required>
+      </div>
+      <div class="form-group">
+          <select name='range' class="form-control bg-secondary text-white mr-2" 
+                  id="known" required>
+              <option  value="">Select Range</option>
+              <option value="5d"> 5 Days </option>
+              <option value="1m"> 1 Month</option>
+              <option value="6m"> 6 Months</option>
+          </select> 
+      </div>   
+      <button class="btn btn-primary" type="submit">Draw</button>
+    </form>
+
+    <div class="" id="search"></div>
+    <div class="" id="result"></div>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+   </div>
+{% endblock %}
+{% block scripts %}
+<!-- <script src="/static/modal_class.js"></script> -->
+<script src="/static/chart.js"></script>
+{% endblock %}

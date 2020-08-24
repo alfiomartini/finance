@@ -4,7 +4,7 @@
 <div class="search-container">
   <ul class="search-list">
       {% for item in companies %}
-      <li data-route='/quote/{{item['id']}}'>
+      <li data-route='/quote/{{item['id']}}' data-symbol="{{item['symbol']}}">
           <a href="#">  <!-- href = '/city/{{item['id']}}' -->
               <span class="">{{item['symbol']}} - </span>
               <span class="">{{item['name']}} - </span>

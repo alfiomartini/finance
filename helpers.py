@@ -48,7 +48,7 @@ def lookup(symbol):
     # Contact API
     try:
         api_key = os.environ.get("FINANCE_KEY")
-        response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
+        response = requests.get(f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
         response.raise_for_status()
     except requests.RequestException:
         return None
@@ -76,3 +76,20 @@ def usd(value):
     # 2 digits after the decimal point
     float_str = "${:,.2f}".format(value)
     return float_str
+
+# https://iexcloud.io/docs/api/#historical-prices
+def chart_data(symbol, range):
+    # accepted range string values : '1m', '6m', '5d'
+
+    # Contact API
+    try:
+        api_key = os.environ.get("FINANCE_KEY")
+        json_response = requests.get(f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/chart/{range}?token={api_key}")
+        json_response.raise_for_status()
+    except requests.RequestException:
+        return None
+    else:
+        # response is in json notation. json() is a json decoder, i.e,
+        # maps json back to object format
+        # see https://requests.readthedocs.io/en/master/user/quickstart/
+        return json_response

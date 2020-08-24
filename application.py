@@ -5,8 +5,8 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from helpers import apology, login_required, lookup, usd
+from datetime import datetime
+from helpers import apology, login_required, lookup, usd, chart_data
 
 # Configure application
 app = Flask(__name__)
@@ -268,6 +268,34 @@ def search(query):
                              order by symbol""", (query,query))
     html = render_template("search.html", companies=companies)
     return html
+
+
+@app.route('/chart', methods = ['GET'])
+@app.route('/chart/<string:symbol>/<string:range>', methods=['GET'])
+def chart(symbol=None, range=None):
+    if symbol and range:
+       json_resp = chart_data(symbol, range)
+       if json_resp:
+            # maps a json string to a python object
+            json_obj = json_resp.json()
+            chart = {}
+            labels = []
+            data = []
+            for item in json_obj:
+                # transforms a date string to a date object
+                date = datetime.strptime(item['date'], '%Y-%m-%d')
+                # transforms da date object to a date string
+                date_str = date.strftime('%m/%d')
+                labels.append(date_str)
+                data.append(item['close'])
+            chart['labels'] = labels
+            chart['data'] = data
+            print(chart)
+            return jsonify(chart)
+       else:
+           return jsonify({})
+    else:
+        return render_template('chart.html')
 
 
 # Authentication Routes

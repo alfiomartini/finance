@@ -175,4 +175,13 @@ nav .navbar-brand
       align-items: center;
   }
 
+  /* Charts */
+
+  .chart-container{
+    position: relative; 
+    height:60vh; 
+    width:80vw;
+    margin:20px auto;
+  }
+
 

@@ -28,6 +28,8 @@
         <link href="/static/favicon-card.ico" rel="icon">
         <!--<link href="/static/android-chrome-192x192.png" rel="icon"> -->
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer>
+        </script>
         <link href="/static/styles.css" rel="stylesheet">
         <title>Finance: {% block title %}{% endblock %}</title>
 
@@ -56,6 +58,8 @@
                             Sell</a></li>
                         <li class="nav-item"><a class="nav-link" href="/history"
                           data-toggle='tooltip' title="List transactions" data-placement='bottom'>History</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/chart"
+                            data-toggle='tooltip' title="Line Charts" data-placement='bottom'>Charts</a></li>
                         <li class="nav-item"><a class="nav-link" href="/change"
                          data-toggle='tooltip' title="Change password" data-placement='bottom'>
                           Password</a></li>
