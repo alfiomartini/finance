@@ -55,6 +55,7 @@ function listeners(){
       fetch(route)
       .then(resp => resp.json())
       .then(chart => {
+          // if the object is not null (has some enumerable properties)
           if (Object.keys(chart).length > 0 ){
             drawChart(chart);
           } 
@@ -77,6 +78,7 @@ function listeners(){
     }
 
     // see: https://www.chartjs.org/docs/latest/general/responsive.html (important note)
+    // see: https://stackoverflow.com/questions/41958548/chartjs-change-axis-line-color
     function drawChart(chart){
       document.querySelector('#search').innerHTML = '';
       let ctx = document.getElementById('myChart');
@@ -96,6 +98,25 @@ function listeners(){
         options: {
           responsive: true,
           maintainAspectRatio:false,
+          scales: {
+            xAxes: [{
+              ticks: {
+                  fontColor: "limegreen",
+              },
+              gridLines: {
+                zeroLineColor: 'limegreen'
+              }
+            }],
+            yAxes: [{
+                ticks: {
+                    fontColor: "limegreen",
+                },
+                gridLines: {
+                  zeroLineColor: 'limegreen',
+                  color: "limegreen"
+                }
+            }],
+        }
         }
       });
     }
