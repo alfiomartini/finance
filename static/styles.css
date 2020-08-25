@@ -198,7 +198,7 @@ form {
   }
 
   /* Charts */
-
+  /* see: https://www.chartjs.org/docs/latest/general/responsive.html */
   .chart-container{
     position: relative; 
     height:60vh; 

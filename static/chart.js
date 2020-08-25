@@ -44,7 +44,7 @@ function listeners(){
     
     function search_get(event){
         clearTimeout(debounceTimeout);
-        debounceTimeout = setTimeout(searchEvents, 200);
+        debounceTimeout = setTimeout(searchEvents, 300);
     }
 
     function processForm(event){
@@ -55,8 +55,13 @@ function listeners(){
       fetch(route)
       .then(resp => resp.json())
       .then(chart => {
-          // console.log(chart);
-          drawChart(chart);
+          if (Object.keys(chart).length > 0 ){
+            drawChart(chart);
+          } 
+          else {
+            let modal = new Modal();
+            modal.show('Sorry, this symbol is unknown!');
+          }
       })
       .catch(error => {
         console.log(error);
@@ -71,6 +76,7 @@ function listeners(){
       chart_container.append(canvas);
     }
 
+    // see: https://www.chartjs.org/docs/latest/general/responsive.html (important note)
     function drawChart(chart){
       document.querySelector('#search').innerHTML = '';
       let ctx = document.getElementById('myChart');
