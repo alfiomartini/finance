@@ -79,8 +79,30 @@ nav .navbar-brand
 
 /* Forms */
 
+form {
+    width: 60%; 
+}
+
 .form-group select{
     background-color: #000066 !important;
+}
+
+#form-chart{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#form-chart .form-group{
+    margin-right:15px;
+}
+
+@media (max-width:500px){
+    #form-chart{
+        display: block;
+        font-size: 8px;
+    }
 }
 
 /* Search Response */
@@ -183,5 +205,6 @@ nav .navbar-brand
     width:80vw;
     margin:20px auto;
   }
+
 
 

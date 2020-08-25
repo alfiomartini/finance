@@ -81,7 +81,7 @@ function listeners(){
           datasets:[
             {
               data:chart['data'],
-              label:"Dataset",
+              label:chart['symbol'],
               fill:false,
               borderColor:"blue"
             } 

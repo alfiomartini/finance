@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block main %}
-    <form class = 'form-inline' action="" method="">
+    <form class="" action="" method="" id="form-chart">
       <div class ="form-group">
-        <input autocomplete="off" autofocus class="form-control mr-2" name="symbol" 
+        <input autocomplete="off" autofocus class="form-control" name="symbol" 
         placeholder="Symbol or Company" type="text" id ='quote-search' required>
       </div>
       <div class="form-group">
-          <select name='range' class="form-control bg-secondary text-white mr-2" 
+          <select name='range' class="form-control bg-secondary text-white" 
                   id="known" required>
               <option  value="">Select Range</option>
               <option value="5d"> 5 Days </option>
@@ -19,7 +19,9 @@
               <option value="6m"> 6 Months</option>
           </select> 
       </div>   
-      <button class="btn btn-primary" type="submit">Draw</button>
+      <div class="">
+        <button class="btn btn-primary" type="submit">Draw</button>
+      </div>
     </form>
 
     <div class="" id="search"></div>

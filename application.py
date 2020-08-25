@@ -287,12 +287,13 @@ def chart(symbol=None, range=None):
             for item in json_obj:
                 # transforms a date string to a date object
                 date = datetime.strptime(item['date'], '%Y-%m-%d')
-                # transforms da date object to a date string
+                # transforms a date object to a date string
                 date_str = date.strftime('%m/%d')
                 labels.append(date_str)
                 data.append(item['close'])
             chart['labels'] = labels
             chart['data'] = data
+            chart['symbol'] = symbol
             return jsonify(chart)
        else:
            return jsonify({})
