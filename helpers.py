@@ -35,10 +35,14 @@ def login_required(f):
     """
     @wraps(f)
     def wrapper(*args, **kwargs):
+        print('entered login required')
         # We use session.get("user_id") to check if the key exists in the session.
         if session.get("user_id") is None:
+            print('session user id is None')
             return redirect(url_for('login'))
-        return f(*args, **kwargs)
+        else:
+             print('session user id', session['user_id'])
+             return f(*args, **kwargs)
     return wrapper
 
 
