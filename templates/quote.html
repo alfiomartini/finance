@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Log In
+    Company
 {% endblock %}
 
 {% block main %}
     <form class = 'form-inline' action="/quote" method="post">
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="symbol" 
-            placeholder="Symbol or Company" type="text" id = 'quote-search'>
+            placeholder="Search (Company)" type="text" id = 'quote-search'>
         </div>
         <button class="btn btn-primary ml-2" type="submit">Submit</button>
     </form>
