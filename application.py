@@ -85,18 +85,22 @@ def index():
          
         # get object from iex cloud
         symbol_data = lookup(row['symbol'])
-        print('symbol data', symbol_data)
-        # build dictionary
-        dict['symbol'] = symbol_data['symbol']
-        dict['name'] = symbol_data['name']
-        dict['shares'] = row['shares']
-        # get  the latest price
-        dict['price'] = symbol_data['price']
-        dict['total'] = dict['price'] * dict['shares']
-        # total value of shares  in dollars
-        sum += dict['total']
-        # update list of data
-        summary.append(dict)
+        # print('symbol data', symbol_data)
+        if 'price' in symbol_data:
+            # build dictionary
+            dict['symbol'] = symbol_data['symbol']
+            dict['name'] = symbol_data['name']
+            dict['shares'] = row['shares']
+            # get  the latest price
+            dict['price'] = symbol_data['price']
+            dict['total'] = dict['price'] * dict['shares']
+            # total value of shares  in dollars
+            sum += dict['total']
+            # update list of data
+            summary.append(dict)
+        else:
+            message = 'Sorry, there was a problem with your request. Try again.'
+            return render_template('failure.html', message=message)
     cash = user[0]['cash']
     return render_template('summary.html', rows = summary, cash=cash, sum=sum)
 
