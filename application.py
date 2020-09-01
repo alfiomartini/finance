@@ -71,6 +71,7 @@ if not os.environ.get("FINANCE_KEY"):
 def index():
     """Show portfolio of stocks"""
     # a list of dictionaries
+    print('Entered index')
     summary = []
     # balance (stocks total value + chas)
     sum = 0
@@ -80,6 +81,7 @@ def index():
                          where id = ? 
                          group by symbol''', (session['user_id'],))
     user = db.execute('select * from users where id = ?', (session['user_id'],))
+    print('user', user)
     for row in rows:
         dict = {}
          
@@ -102,6 +104,7 @@ def index():
             message = 'Sorry, there was a problem with your request. Try again.'
             return render_template('failure.html', message=message)
     cash = user[0]['cash']
+    print('printing summary now')
     return render_template('summary.html', rows = summary, cash=cash, sum=sum)
 
 
@@ -339,6 +342,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
+        print('login-redirecting to index')
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -425,4 +429,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
