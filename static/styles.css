@@ -61,6 +61,15 @@ td{
     top: 10px;
 }
 
+.navbar .dropdown .dropdown-menu{
+    background-color: #343a40 !important;
+}
+
+.navbar .dropdown .dropdown-menu a:hover{
+    color: black !important;
+    background-color: whitesmoke !important;
+}
+
 .flashed{
     position: sticky;
     top:6em;

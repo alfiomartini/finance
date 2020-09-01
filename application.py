@@ -85,6 +85,7 @@ def index():
          
         # get object from iex cloud
         symbol_data = lookup(row['symbol'])
+        print('symbol data', symbol_data)
         # build dictionary
         dict['symbol'] = symbol_data['symbol']
         dict['name'] = symbol_data['name']
