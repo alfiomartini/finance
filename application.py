@@ -1,6 +1,7 @@
 import os
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -138,7 +139,7 @@ def buy(symbol=None):
                     values(?,?,?,'bought', ?)''', 
                     session['user_id'], symbol, shares, price)
         flash('Bought!')
-        return redirect('/')
+        return redirect(url_for('index'))
     else:
         if not symbol:
             symbol = 'unknown'
@@ -186,7 +187,7 @@ def sell(symbol = None):
                        values(?,?,?, 'sold', ?)''',
                        session['user_id'], symbol, -shares, price)
         flash('Sold!')
-        return redirect('/')
+        return redirect(url_for('index'))
     else:
         if not symbol:
             symbol = 'unknown'
@@ -246,7 +247,7 @@ def add():
         current = row[0]['cash']
         new_cash = current + amount
         db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
-        return redirect('/')
+        return redirect(url_for('index'))
     else:
         return render_template('add.html')
 
@@ -343,7 +344,7 @@ def login():
 
         # Redirect user to home page
         print('login-redirecting to index')
-        return redirect("/")
+        return redirect(url_for('index'))
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -358,7 +359,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
-    return redirect("/")
+    return redirect(url_for('index'))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -412,7 +413,7 @@ def change():
         # update database with new user password 
         db.execute('update users set hash = ? where id = ?',
                     (newhash, session['user_id'],))
-        return redirect('/logout')
+        return redirect(url_for('logout'))
     else:
         return render_template('change.html')
 
