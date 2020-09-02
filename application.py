@@ -56,13 +56,8 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
-# enables foreign key constraints at runtime
-#db.execute('PRAGMA foreign_keys = ON')
-
 # Make sure API key is set
-# set API_KEY=pk_01aaacabc1964f3690742bddf2c3695d
 # list keys: set
-# pk_01aaacabc1964f3690742bddf2c3695d
 if not os.environ.get("FINANCE_KEY"):
     raise RuntimeError("API_KEY not set")
 
@@ -71,10 +66,7 @@ if not os.environ.get("FINANCE_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    # a list of dictionaries
-    print('Entered index')
     summary = []
-    # balance (stocks total value + chas)
     sum = 0
     # query database 
     # each row has the total number of shares for each symbol 
@@ -153,12 +145,7 @@ def sell(symbol = None):
     # query database and build a list of known symbols for a context menu
     sold_symbols = db.execute('select symbol from transactions where id = ? group by symbol',
                               (session['user_id'],))
-    # print(sold_symbols)
-    # companies = []
-    # for item in sold_symbols:
-    #     row = db.execute('select * from companies where symbol = ?', (item['symbol'],))
-    #     companies += row
-    # print(companies)
+    
     listSymb = list(map(lambda x: x['symbol'], sold_symbols))
     if request.method == 'POST':
         symbol = request.form.get('symbol').upper()
@@ -197,7 +184,7 @@ def sell(symbol = None):
 @login_required
 def history():
     """Show history of transactions"""
-    # list of dictionaries
+    
     history = []
     rows = db.execute('''select symbol, number, price, datetime(date,'localtime') as loc_date
                          from transactions 
@@ -343,7 +330,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        print('login-redirecting to index')
+    
         return redirect(url_for('index'))
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -430,4 +417,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=false)
