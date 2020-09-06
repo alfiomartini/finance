@@ -16,7 +16,6 @@ h3{
     color: lightgreen;
 }
 
-
 img
 {
     /* constrain images on small screens */
@@ -43,17 +42,7 @@ td{
     justify-content: center; 
 }
 
-@media (max-width:500px){
-    .table-col-hide{
-        display: none;
-    }
-}
 
-@media (max-width:500px){
-    table{
-        font-size: 12px;
-    }
-}
 /* navbar */
 
 .navbar{
@@ -74,17 +63,14 @@ td{
     position: sticky;
     top:6em;
 }
+
 nav .navbar-brand
 {
     /* size for brand */
     font-size: x-large;
 }
 
-@media screen and (min-width: 700px){
-    nav li > a{
-      font-size: 18px;
-    }
-}
+
 
 /* Forms */
 
@@ -107,12 +93,6 @@ form {
     margin-right:15px;
 }
 
-@media (max-width:500px){
-    #form-chart{
-        display: block;
-        font-size: 8px;
-    }
-}
 
 /* Search Response */
 
@@ -215,5 +195,31 @@ form {
     margin:20px auto;
   }
 
+
+/* Media Queries */
+@media (max-width:600px){
+    .table-col-hide{
+        display: none;
+    }
+}
+
+@media (max-width:600px){
+    table{
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 700px){
+    nav li > a{
+      font-size: 18px;
+    }
+}
+
+@media (max-width:600px){
+    #form-chart{
+        display: block;
+        font-size: 8px;
+    }
+}
 
 
