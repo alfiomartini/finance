@@ -47,19 +47,40 @@
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/quote"
-                         data-toggle='tooltip' title="Name symbol" data-placement='bottom'>
-                         Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/buy"
-                            data-toggle='tooltip' title="Buy stocks" data-placement='bottom'>
-                            Buy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/sell"
-                            data-toggle='tooltip' title="Sell stocks" data-placement='bottom'>
-                            Sell</a></li>
+                        <li class = "nav-item dropdown"> 
+                            <a  class="nav-link dropdown-toggle"  href="#"
+                                id="navbardrop" data-toggle="dropdown"> 
+                                <span data-toggle='tooltip' title="" data-placement=''>
+                                    Companies
+                                </span></a>
+                            </a>
+                            <div class="dropdown-menu"> 
+                                <a class="dropdown-item text-white" href="/chart"
+                                        data-toggle='tooltip' title="Line Charts" data-placement='bottom'>
+                                        Charts</a>
+                                <a class="dropdown-item text-white" href="/quote"
+                                    data-toggle='tooltip' title="Name symbol" data-placement='bottom'>
+                                    Quote</a>
+                            </div>
+                        </li>
+                        <li class = "nav-item dropdown"> 
+                            <a  class="nav-link dropdown-toggle"  href="#"
+                                id="navbardrop" data-toggle="dropdown"> 
+                                <span data-toggle='tooltip' title="" data-placement='bottom'>
+                                    Stocks
+                                </span></a>
+                            </a>
+                            <div class="dropdown-menu"> 
+                                <a class="dropdown-item text-white" href="/buy"
+                                    data-toggle='tooltip' title="Buy stocks" data-placement='bottom'>
+                                    Buy</a>
+                                <a class="dropdown-item text-white" href="/sell"
+                                    data-toggle='tooltip' title="Sell stocks" data-placement='bottom'>
+                                    Sell</a>
+                            </div>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="/history"
                           data-toggle='tooltip' title="List transactions" data-placement='bottom'>History</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/chart"
-                            data-toggle='tooltip' title="Line Charts" data-placement='bottom'>Charts</a></li>
                         <li class="nav-item"><a class="nav-link" href="/change"
                          data-toggle='tooltip' title="Change password" data-placement='bottom'>
                           Password</a></li>
