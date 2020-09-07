@@ -189,7 +189,7 @@ def history():
     rows = db.execute('''select symbol, number, price, datetime(date,'localtime') as loc_date
                          from transactions 
                          where id = ? 
-                         order by loc_date''', (session['user_id'],))
+                         order by loc_date desc''', (session['user_id'],))
     for row in rows:
         dict = {}
         dict['symbol'] = row['symbol']
@@ -417,4 +417,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
