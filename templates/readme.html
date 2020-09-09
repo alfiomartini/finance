@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %} Readme {% endblock %}
+
+{% block main %}
+<div class="readme-wrapper">
+  <div class="readme">
+    <p class="">This is a web application with which one can manage portfolios of stocks. It is implemented with <em>HTML/CSS/Bootstrap</em>, <em>JavaScript</em>, <em>Python</em>, <em>Flask</em> and the <em>SQLite</em> database. It allows for 'buying' and 'selling' of stocks, and also checking real stock's prices and portfolios's values using the free api provided by IEX cloud. It can also display all user transactions,  as well as generating charts showing stock prices fluctuations for different periods of time. It is an extended version of my original implementation  to a Harvard's CS50 project.  You can see it live <a href="https://iexstocks.herokuapp.com/">here</a>.</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- <script>
+  document.querySelector('input').addEventListener('keyup', () => {
+    let readme = document.querySelector('.readme');
+    readme.innerHTML = '';
+    readme.style.padding = '0';
+    readme.style.margin = '0';
+  })
+</script> -->
+{% endblock %}

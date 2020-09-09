@@ -195,6 +195,23 @@ form {
     margin:20px auto;
   }
 
+/* Readme */
+
+.readme-wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 40px;
+}
+
+.readme{
+    background-color: whitesmoke;
+    color: black;
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+    width: 50%;
+}
 
 /* Media Queries */
 @media (max-width:600px){
@@ -219,6 +236,12 @@ form {
     #form-chart{
         display: block;
         font-size: 8px;
+    }
+}
+
+@media (max-width:768px){
+    .readme{
+        width: 80%;
     }
 }
 

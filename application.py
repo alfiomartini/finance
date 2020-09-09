@@ -62,6 +62,11 @@ if not os.environ.get("FINANCE_KEY"):
     raise RuntimeError("API_KEY not set")
 
 
+@app.route('/readme', methods = ['get'])
+def readme():
+    # print('hello readme')
+    return render_template('readme.html')
+
 @app.route("/")
 @login_required
 def index():
@@ -417,4 +422,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
