@@ -22,7 +22,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 # see https://pythonise.com/series/learning-flask/python-before-after-request
 # @app.after_request
 # def after_request(response):
-#     # Cache-Control specifies how long and in what manner should the content be cached. 
+#     # Cache-Control specifies how long and in what manner should the content be cached.
 #     # no-store specifies that the content is not to be cached by any of the caches
 #     # (public, private, server)
 #     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -37,10 +37,10 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.jinja_env.filters['usd'] = usd
 
 # Configure session to use local filesystem (instead of signed cookies)
-# mkdtemp() creates a temporary directory in the most secure manner possible. 
-# There are no race conditions in the directory’s creation. The directory is 
+# mkdtemp() creates a temporary directory in the most secure manner possible.
+# There are no race conditions in the directory’s creation. The directory is
 # readable, writable, and searchable only by the creating user ID.
-# The user of mkdtemp() is responsible for deleting the temporary directory and its 
+# The user of mkdtemp() is responsible for deleting the temporary directory and its
 # contents when done with it.
 
 # app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -58,10 +58,11 @@ if not os.environ.get("FINANCE_KEY"):
     raise RuntimeError("API_KEY not set")
 
 
-@app.route('/readme', methods = ['get'])
+@app.route('/readme', methods=['get'])
 def readme():
     # print('hello readme')
     return render_template('readme.html')
+
 
 @app.route("/")
 @login_required
@@ -69,16 +70,17 @@ def index():
     """Show portfolio of stocks"""
     summary = []
     sum = 0
-    # query database 
-    # each row has the total number of shares for each symbol 
+    # query database
+    # each row has the total number of shares for each symbol
     rows = db.execute('''select symbol, sum(number) as shares from transactions
                          where id = ? 
                          group by symbol''', (session['user_id'],))
-    user = db.execute('select * from users where id = ?', (session['user_id'],))
+    user = db.execute('select * from users where id = ?',
+                      (session['user_id'],))
     print('user', user)
     for row in rows:
         dict = {}
-         
+
         # get object from iex cloud
         symbol_data = lookup(row['symbol'])
         # print('symbol data', symbol_data)
@@ -98,8 +100,8 @@ def index():
             message = 'Sorry, there was a problem with your request. Try again.'
             return render_template('failure.html', message=message)
     cash = user[0]['cash']
-    print('printing summary now')
-    return render_template('summary.html', rows = summary, cash=cash, sum=sum)
+    # print('printing summary now')
+    return render_template('summary.html', rows=summary, cash=cash, sum=sum)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -120,33 +122,34 @@ def buy(symbol=None):
         shares = int(request.form.get('shares'))
         if shares < 0:
             return render_template('failure', message='You must provide a positive number.')
-        row = db.execute('select * from users where id = ?', (session['user_id'],))
+        row = db.execute('select * from users where id = ?',
+                         (session['user_id'],))
         cash = row[0]['cash']
         shares_value = shares * price
-        if (cash - shares_value) < 0 :
+        if (cash - shares_value) < 0:
             return render_template('failure.html', message="You can't afford this buy at current price")
         new_cash = cash - shares_value
-        db.execute('update users set cash = ? where id = ?', 
-                    new_cash, session['user_id'])
+        db.execute('update users set cash = ? where id = ?',
+                   new_cash, session['user_id'])
         db.execute('''insert into transactions(id, symbol, number, type, price) 
-                    values(?,?,?,'bought', ?)''', 
-                    session['user_id'], symbol, shares, price)
+                    values(?,?,?,'bought', ?)''',
+                   session['user_id'], symbol, shares, price)
         flash('Bought!')
         return redirect(url_for('index'))
     else:
         if not symbol:
             symbol = 'unknown'
-        return render_template('buy.html', companies = companies, symbol=symbol)
+        return render_template('buy.html', companies=companies, symbol=symbol)
 
 
 @app.route("/sell", methods=["GET", "POST"])
 @app.route("/sell/<string:symbol>", methods=['GET'])
 @login_required
-def sell(symbol = None):
+def sell(symbol=None):
     # query database and build a list of known symbols for a context menu
     sold_symbols = db.execute('select symbol from transactions where id = ? group by symbol',
                               (session['user_id'],))
-    
+
     listSymb = list(map(lambda x: x['symbol'], sold_symbols))
     if request.method == 'POST':
         symbol = request.form.get('symbol').upper()
@@ -155,25 +158,27 @@ def sell(symbol = None):
             return render_template('failure.html', message='Unknown symbol.')
         shares = int(request.form.get('shares'))
         if shares < 0:
-            return render_template('failure.html', message ='You must provide a positive number.')
+            return render_template('failure.html', message='You must provide a positive number.')
         if symbol not in listSymb:
             return render_template('failure.html', message='You do not own shares of this company.')
         # get the latest price
         price = data['price']
         rowSymb = db.execute('''select symbol, sum(number) as shares 
                               from transactions where id = ? group by symbol
-                              having symbol = ?''', session['user_id'],symbol)
+                              having symbol = ?''', session['user_id'], symbol)
         sharesSymb = rowSymb[0]['shares']
         if shares > sharesSymb:
             return render_template('failure.html', message="You can't buy that many shares.")
-        user = db.execute('select * from users where id = ?', (session['user_id'],))
+        user = db.execute('select * from users where id = ?',
+                          (session['user_id'],))
         cash = user[0]['cash']
         shares_value = shares * price
-        new_cash = cash  + shares_value
-        db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
+        new_cash = cash + shares_value
+        db.execute('update users set cash = ? where id = ?',
+                   new_cash, session['user_id'])
         db.execute('''insert into transactions(id, symbol, number, type, price) 
                        values(?,?,?, 'sold', ?)''',
-                       session['user_id'], symbol, -shares, price)
+                   session['user_id'], symbol, -shares, price)
         flash('Sold!')
         return redirect(url_for('index'))
     else:
@@ -181,11 +186,12 @@ def sell(symbol = None):
             symbol = 'unknown'
         return render_template('sell.html', symbols=listSymb, symbol=symbol)
 
+
 @app.route("/history")
 @login_required
 def history():
     """Show history of transactions"""
-    
+
     history = []
     rows = db.execute('''select symbol, number, price, datetime(date,'localtime') as loc_date
                          from transactions 
@@ -200,12 +206,13 @@ def history():
         dict['date'] = row['loc_date']
         history.append(dict)
 
-    return render_template('history.html', rows = history)
+    return render_template('history.html', rows=history)
 
-@app.route("/quote", methods =["GET","POST"])
+
+@app.route("/quote", methods=["GET", "POST"])
 @app.route("/quote/<int:quote_id>", methods=["GET"])
 @login_required
-def quote(quote_id = None):
+def quote(quote_id=None):
     if request.method == 'POST':
         symbol = request.form.get('symbol').upper()
         data = lookup(symbol)
@@ -217,31 +224,37 @@ def quote(quote_id = None):
         if not quote_id:
             return render_template('quote.html')
         else:
-            row = db.execute('select * from companies where id = ?',(quote_id,))
+            row = db.execute(
+                'select * from companies where id = ?', (quote_id,))
             print(row)
             if row:
                 return render_template('quote_result.html', company=row[0])
             else:
                 # print('No rows')
-                return render_template('failure.html', 
-                       message='Sorry, this company does not exist.')
-      
-@app.route('/add', methods=['GET','POST'])
+                return render_template('failure.html',
+                                       message='Sorry, this company does not exist.')
+
+
+@app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
     if request.method == 'POST':
         amount = int(request.form.get('cash'))
-        row = db.execute('select * from users where id = ?', (session['user_id'],))
+        row = db.execute('select * from users where id = ?',
+                         (session['user_id'],))
         current = row[0]['cash']
         new_cash = current + amount
-        db.execute('update users set cash = ? where id = ?', new_cash, session['user_id'])
+        db.execute('update users set cash = ? where id = ?',
+                   new_cash, session['user_id'])
         return redirect(url_for('index'))
     else:
         return render_template('add.html')
 
 # Utilities routes
 
-# this route is requested during register to validate a new user. 
+# this route is requested during register to validate a new user.
+
+
 @app.route("/check", methods=["GET"])
 def check():
     """Return true if username available, else false, in JSON format"""
@@ -256,6 +269,7 @@ def check():
         avail = False
     return jsonify(avail)
 
+
 @app.route("/search/<string:query>")
 @login_required
 def search(query):
@@ -264,18 +278,18 @@ def search(query):
     companies = db.execute("""select * from companies
                              where lower(name) like  ?
                              or lower(symbol) like ?
-                             order by symbol""", (query,query))
+                             order by symbol""", (query, query))
     html = render_template("search.html", companies=companies)
     return html
 
 
-@app.route('/chart', methods = ['GET'])
+@app.route('/chart', methods=['GET'])
 @app.route('/chart/<string:symbol>/<string:range>', methods=['GET'])
 @login_required
 def chart(symbol=None, range=None):
     if symbol and range:
-       json_resp = chart_data(symbol, range)
-       if json_resp:
+        json_resp = chart_data(symbol, range)
+        if json_resp:
             # maps a json string to a python object
             json_obj = json_resp.json()
             chart = {}
@@ -292,8 +306,8 @@ def chart(symbol=None, range=None):
             chart['data'] = data
             chart['symbol'] = symbol
             return jsonify(chart)
-       else:
-           return jsonify({})
+        else:
+            return jsonify({})
     else:
         return render_template('chart.html')
 
@@ -323,15 +337,15 @@ def login():
                           username=request.form.get("username"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], 
-                                   request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"],
+                                                     request.form.get("password")):
             return render_template('failure.html', message="Invalid username and/or password")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-    
+
         return redirect(url_for('index'))
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -349,6 +363,7 @@ def logout():
     # Redirect user to login form
     return redirect(url_for('index'))
 
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -361,7 +376,7 @@ def register():
             return render_template('failure.html', message='This user is already registered.')
          # just to make it sure. It could never happen
         elif len(row) > 1:
-            return render_template('failure.html', message='Duplicates in the database') 
+            return render_template('failure.html', message='Duplicates in the database')
         password = request.form.get('password')
         if not password:
             return render_template('failure.html', message="You must provide a passord")
@@ -372,8 +387,8 @@ def register():
         if not check_password_hash(hash_passw, confirmation):
             return render_template('failure.html', message='Passwords do not match.')
         else:
-            db.execute('insert into users(username, hash) values(?,?)', 
-                           username, hash_passw)
+            db.execute('insert into users(username, hash) values(?,?)',
+                       username, hash_passw)
             flash("You are registered.")
             return render_template('registered.html')
     else:
@@ -392,15 +407,15 @@ def change():
         if new != conf:
             return render_template('failure.html', messahe="New passord and confirmation don't match.")
         # query database to access user data
-        row = db.execute("select * from users where id = ?", 
-              (session['user_id'],))
+        row = db.execute("select * from users where id = ?",
+                         (session['user_id'],))
         oldhash = row[0]['hash']
         if not check_password_hash(oldhash, old):
             return render_template('failure.html', message='Current password is wrong.')
         newhash = generate_password_hash(new)
-        # update database with new user password 
+        # update database with new user password
         db.execute('update users set hash = ? where id = ?',
-                    (newhash, session['user_id'],))
+                   (newhash, session['user_id'],))
         return redirect(url_for('logout'))
     else:
         return render_template('change.html')
@@ -410,7 +425,7 @@ def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    return render_template('failure.html', message= f"{e.name}, {e.code}")
+    return render_template('failure.html', message=f"{e.name}, {e.code}")
 
 
 # Listen for errors
@@ -418,4 +433,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

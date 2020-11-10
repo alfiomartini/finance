@@ -10,10 +10,12 @@
         <table class="table table-responsive">
             <thead>
                 <tr>
-                    <th class="table-col-hide"> Symbol</th> 
-                    <th> Name</th> 
-                    <th>Shares</th> 
-                    <th>Price</th> 
+                    <th class="table-col-hide" data-toggle='tooltip'
+                     title="Shorthand for company's name" 
+                    data-placement='top'> Symbol</th> 
+                    <th class="" data-toggle='tooltip' title="Company's name" data-placement='top'>Name</th> 
+                    <th data-toggle='tooltip' title="number of stocks from this company" data-placement='top'>Shares</th> 
+                    <th data-toggle='tooltip' title="current price for a share" data-placement='top'>Price</th> 
                     <th class="table-col-hide">Total</th> 
                     <th>Buy/Sell</th> 
                 </tr>
@@ -22,7 +24,7 @@
                 {% for row in rows %}
                 <tr>
                     <td class="table-col-hide"> <span class="">{{ row['symbol']}}</span></td> 
-                    <td> <span class="">{{ row['name']}}</span></td> 
+                    <td> <span class="table-name">{{ row['name']}}</span></td> 
                     <td> <span class="">{{ row['shares']}}</span></td>
                     <td> <span class="">{{ row['price'] | usd}} </span></td>
                     <td class="table-col-hide"> <span class=""">{{ row['total'] | usd }}</span></td>
@@ -32,14 +34,14 @@
                 {% endfor %}
                 <tr><td class="table-col-hide"></td> 
                     <td>CASH</td> 
-                    <td>{{cash | usd}}</td>
+                    <td data-toggle='tooltip' title="amount of money available for investing" data-placement='top'>{{cash | usd}}</td>
                     <td></td>
                     <td class="table-col-hide"></td>
                     <td><a href="/add" class="edit-btn">add</a></td></tr>
                 <tr>
                     <td class="table-col-hide"></td>
                     <td>PORTFOLIO</td> 
-                    <td>{{sum | usd}}</td>
+                    <td data-toggle='tooltip' title="total investment" data-placement='top'>{{sum | usd}}</td>
                     <td></td>
                     <td class="table-col-hide"></td>
                     <td></td>
