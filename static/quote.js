@@ -39,14 +39,19 @@ function listeners(){
     }
 
     function api_route(){
-        route = this.dataset.route; //this = link (list item) that triggered the event
+        const route = this.dataset.route; //this = link (list item) that triggered the event
+        const symbol = this.dataset.symbol;
+        // console.log(symbol)
+        const input = document.getElementById('quote-search');
+        input.value = symbol;
+        // console.log(input);
         // console.log(route);
         fetch(route)
         .then(response => response.text())
         .then(html  => {
             document.getElementById("search").innerHTML = '';
             result.innerHTML = html;
-            input.value = '';
+            // input.value = '';
         })
         .catch(error => {
             console.log(error);

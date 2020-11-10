@@ -226,7 +226,7 @@ def quote(quote_id=None):
         else:
             row = db.execute(
                 'select * from companies where id = ?', (quote_id,))
-            print(row)
+            # print(row)
             if row:
                 return render_template('quote_result.html', company=row[0])
             else:
